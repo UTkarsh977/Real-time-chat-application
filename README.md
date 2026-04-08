@@ -172,12 +172,7 @@ The frontend runs on `http://localhost:3000` by default.
 - `private:message`
 - `private:preview`
 
-## Important Behavior Notes
 
-- User accounts are stored in MongoDB
-- Room messages and private messages are currently stored in server memory
-- If the backend restarts, in-memory chat history is cleared
-- Presence is live and only reflects currently connected socket sessions
 
 ## Future Improvements
 
@@ -188,6 +183,4 @@ The frontend runs on `http://localhost:3000` by default.
 - Improve room moderation and access control
 - Add deployment configuration for production
 
-## License
 
-This project is licensed under the ISC License.
