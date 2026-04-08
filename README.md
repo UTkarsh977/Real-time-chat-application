@@ -1,5 +1,7 @@
 # Real-time Chat Application
 
+> **Updated:** April 8, 2026 — this is the expanded, detailed project documentation.
+
 A full-stack real-time chat platform built with **React**, **Node.js**, **Express**, **Socket.IO**, and **MongoDB**.
 
 It supports account-based authentication, room conversations, private direct messaging, and live presence updates so users can see who is online and where they are active.
