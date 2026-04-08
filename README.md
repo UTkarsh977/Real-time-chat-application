@@ -1,4 +1,17 @@
-# Real-time Chat Application
+Real-time Chat Application
+
+COMPANY - CODTECH IT SOLUTIONS
+
+NAME: UTKARSH KHANDELWAL
+
+INTERN ID: CTIS7615
+
+DOMAIN: FRONTEND WEB DEVELOPMENT
+
+DURATION: 8 WEEKS
+
+MENTOR: NEELA SANTOSH
+
 
 A full-stack real-time chat application built with React, Express, Socket.IO, and MongoDB. Users can create accounts, sign in securely, join shared rooms, create new rooms, send private messages, and see live presence updates for other users.
 
