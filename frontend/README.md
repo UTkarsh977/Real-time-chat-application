@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Frontend - Real-time Chat Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder contains the React client for the real-time chat application.
 
-## Available Scripts
+If you are looking for full project documentation (backend, API, architecture), see the root `README.md`.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## What this frontend does
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Handles authentication screens (`/login`, `/signup`).
+- Protects the chat route (`/chat`) for authenticated users.
+- Connects to the backend with Socket.IO using JWT auth.
+- Renders:
+  - room conversations
+  - direct/private conversations
+  - online/offline user presence
+  - room list updates in real time
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Tech used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React
+- React Router
+- Socket.IO Client
+- Fetch API
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Environment assumptions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+By default, the frontend expects backend API + sockets at:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `http://localhost:5000`
 
-### `npm run eject`
+This is configured in `src/App.js` as `API_URL`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Run locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+From this `frontend/` directory:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+npm start
+```
 
-## Learn More
+The app runs on:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `http://localhost:3000`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Available scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `npm start` - start development server
+- `npm test` - run tests
+- `npm run build` - create production build
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Notes for contributors
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Keep UI behavior aligned with backend Socket.IO events:
+  - `rooms:list`, `users:list`, `room:joined`, `room:message`
+  - `private:history`, `private:message`, `private:preview`
+- Ensure auth token storage/usage remains consistent with backend JWT middleware.
+- Prefer updating root `README.md` for cross-service documentation changes.
