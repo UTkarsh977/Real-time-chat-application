@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
+const CLIENT_URL = process.env.CLIENT_URL || "*";
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/realtime-chat";
 const JWT_SECRET = process.env.JWT_SECRET || "change-me-in-production";
@@ -19,10 +19,35 @@ const JWT_SECRET = process.env.JWT_SECRET || "change-me-in-production";
 const DEFAULT_ROOMS = ["General", "Engineering", "Design", "Random"];
 const ROOM_PREFIX = "room:";
 const DIRECT_PREFIX = "direct:";
+const ALLOWED_ORIGINS = CLIENT_URL.split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+function isAllowedOrigin(origin) {
+  if (!origin) {
+    return true;
+  }
+
+  if (ALLOWED_ORIGINS.length === 0) {
+    return true;
+  }
+
+  if (ALLOWED_ORIGINS.includes("*")) {
+    return true;
+  }
+
+  return ALLOWED_ORIGINS.includes(origin);
+}
 
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
   })
 );
 app.use(express.json());
@@ -331,7 +356,13 @@ app.get("/api/users", authMiddleware, async (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: CLIENT_URL,
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
   },
 });
 

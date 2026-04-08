@@ -10,7 +10,20 @@ import {
 import { io } from "socket.io-client";
 import "./App.css";
 
-const API_URL = "http://localhost:5000";
+function getApiUrl() {
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+
+  if (typeof window !== "undefined") {
+    const { protocol, hostname } = window.location;
+    return `${protocol}//${hostname}:5000`;
+  }
+
+  return "http://localhost:5000";
+}
+
+const API_URL = getApiUrl();
 const TOKEN_KEY = "chat_token";
 
 function getStoredToken() {
