@@ -214,6 +214,8 @@
   grid-template-columns: 360px minmax(0, 1fr);
   gap: 22px;
   padding: 22px;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .chat-sidebar,
@@ -224,6 +226,8 @@
 .chat-sidebar {
   gap: 18px;
   justify-content: flex-start;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .profile-card {
@@ -373,6 +377,8 @@
   grid-template-rows: auto 1fr auto;
   gap: 20px;
   padding: 24px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .chat-header {
@@ -384,7 +390,70 @@
   gap: 16px;
 }
 
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .messages-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 8px;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.history-panel {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.history-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.history-panel-header h3,
+.history-panel-header p {
+  margin: 0;
+}
+
+.history-panel-header h3 {
+  color: #f8fafc;
+  font-size: 1.1rem;
+}
+
+.history-panel-header p {
+  margin-top: 6px;
+  color: #9fb0c7;
+  line-height: 1.6;
+}
+
+.history-count {
+  width: fit-content;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 212, 191, 0.24);
+  background: rgba(20, 184, 166, 0.12);
+  color: #99f6e4;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+}
+
+.history-list {
+  min-height: 0;
   overflow-y: auto;
   padding-right: 8px;
   display: grid;
@@ -456,6 +525,14 @@
 
   .chat-shell {
     padding: 16px;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .chat-sidebar,
+  .chat-panel {
+    overflow: visible;
   }
 }
 
@@ -475,6 +552,11 @@
 
   .chat-header {
     display: grid;
+  }
+
+  .chat-header-actions,
+  .history-panel-header {
+    justify-content: flex-start;
   }
 
   .message-bubble {

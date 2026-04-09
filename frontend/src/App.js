@@ -190,6 +190,7 @@ function ChatPage({ token, user, onLogout }) {
   const [draftMessage, setDraftMessage] = useState("");
   const [newRoomName, setNewRoomName] = useState("");
   const [notice, setNotice] = useState("");
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   useEffect(() => {
     async function loadUsers() {
@@ -402,6 +403,16 @@ function ChatPage({ token, user, onLogout }) {
     activeView.type === "room"
       ? roomMessages[activeView.id] || []
       : privateMessages[activeView.id] || [];
+  const historyTitle =
+    activeView.type === "room"
+      ? `# ${activeView.id} history`
+      : activeRecipient
+        ? `${activeRecipient.name}'s history`
+        : "Conversation history";
+  const historyDescription =
+    activeView.type === "room"
+      ? "Browse the saved messages for this room in a separate history view."
+      : "Browse the saved direct messages for this conversation in a separate history view.";
 
   return (
     <div className="chat-shell">
@@ -551,37 +562,87 @@ function ChatPage({ token, user, onLogout }) {
             </p>
           </div>
 
-          {notice && <div className="notice-chip">{notice}</div>}
+          <div className="chat-header-actions">
+            <button
+              className="secondary-button compact-button"
+              onClick={() => setIsHistoryOpen((current) => !current)}
+              type="button"
+            >
+              {isHistoryOpen ? "Close history" : `View history (${messages.length})`}
+            </button>
+            {notice && <div className="notice-chip">{notice}</div>}
+          </div>
         </div>
 
-        <div className="messages-list">
-          {messages.length === 0 ? (
-            <div className="empty-state">
-              {activeView.type === "room"
-                ? "No room messages yet. Say hello to everyone here."
-                : "No private messages yet. Start the conversation."}
+        {isHistoryOpen ? (
+          <section className="history-panel">
+            <div className="history-panel-header">
+              <div>
+                <h3>{historyTitle}</h3>
+                <p>{historyDescription}</p>
+              </div>
+              <span className="history-count">{messages.length} messages</span>
             </div>
-          ) : (
-            messages.map((item) => {
-              const isOwnMessage = item.senderId === user.id;
 
-              return (
-                <div
-                  key={item.id}
-                  className={`message-row ${isOwnMessage ? "own-message" : ""}`}
-                >
-                  <div className="message-bubble">
-                    <div className="message-meta">
-                      <span>{isOwnMessage ? "You" : item.senderName}</span>
-                      <span>{item.time}</span>
-                    </div>
-                    <p>{item.text}</p>
-                  </div>
+            <div className="history-list">
+              {messages.length === 0 ? (
+                <div className="empty-state">
+                  {activeView.type === "room"
+                    ? "No room history yet. Messages will appear here after the first conversation."
+                    : "No private history yet. Start the conversation to build a history."}
                 </div>
-              );
-            })
-          )}
-        </div>
+              ) : (
+                messages.map((item) => {
+                  const isOwnMessage = item.senderId === user.id;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`message-row ${isOwnMessage ? "own-message" : ""}`}
+                    >
+                      <div className="message-bubble">
+                        <div className="message-meta">
+                          <span>{isOwnMessage ? "You" : item.senderName}</span>
+                          <span>{item.time}</span>
+                        </div>
+                        <p>{item.text}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </section>
+        ) : (
+          <div className="messages-list">
+            {messages.length === 0 ? (
+              <div className="empty-state">
+                {activeView.type === "room"
+                  ? "No room messages yet. Say hello to everyone here."
+                  : "No private messages yet. Start the conversation."}
+              </div>
+            ) : (
+              messages.map((item) => {
+                const isOwnMessage = item.senderId === user.id;
+
+                return (
+                  <div
+                    key={item.id}
+                    className={`message-row ${isOwnMessage ? "own-message" : ""}`}
+                  >
+                    <div className="message-bubble">
+                      <div className="message-meta">
+                        <span>{isOwnMessage ? "You" : item.senderName}</span>
+                        <span>{item.time}</span>
+                      </div>
+                      <p>{item.text}</p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
 
         <form className="composer" onSubmit={sendMessage}>
           <input
